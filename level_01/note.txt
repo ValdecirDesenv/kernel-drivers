@@ -1,0 +1,17 @@
+"Compiler:
+* Keep in mind:
+	- The compiler requires the Makefile.
+	- The compiler requires GCC.
+* Command: make
+	- Executes the compilation process for the current code, adhering to the specified project path and libraries defined in the Makefile."
+
+* Command to insert the module into the kernel:
+	- sudo insmod <module_name.ko>
+
+* Check at the system:
+	- lsmod | grep <module_name>
+	- dmesg | tail
+
+* Remove
+	- sudo rmmod <module_name>
+	- dmes | tail
