@@ -1,0 +1,7 @@
+level_03$ sudo insmod level03.ko 
+[sudo] password for vdc:  
+level_03$ ls /dev/dummydriver 
+/dev/dummydriver
+level_03$ sudo chmod 666 /dev/dummydriver 
+level_03$ echo "Mais um processo" > /dev/dummydriver 
+level_03$ head -n 1 /dev/dummydriver 

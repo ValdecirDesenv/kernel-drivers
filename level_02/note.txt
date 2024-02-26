@@ -1,0 +1,70 @@
+
+
+This level 02 code has the main go to create register number for device module
+
+In Linux, device numbers are used to uniquely identify devices such as hard drives, 
+partitions, and other hardware components within the system. 
+These device numbers are important for the kernel to manage and interact with these devices.
+
+There are two types of device numbers used in Linux:
+
+    Major Number: It identifies the type of device (e.g., disk, network interface, character device, block device, etc.). 
+	Each type of device has its own major number. For example, hard drives typically have a major number associated with 
+	block devices, while keyboards and mice have major numbers associated with character devices.
+
+    Minor Number: It helps the kernel differentiate between different devices of the same type. 
+	For example, if you have multiple hard drives, each will have a different minor number.
+
+These numbers are used by device drivers to communicate with the kernel and the hardware. 
+When a device is connected or detected by the system, the kernel assigns it a unique combination of 
+major and minor numbers. These numbers are crucial for the kernel to locate and interact with the 
+device when performing tasks such as reading from or writing to it.
+
+You can see the device numbers associated with various devices in the /dev directory in Linux. 
+For example, /dev/sda represents the first SCSI/SATA hard disk drive, where "sda" is the name of the 
+device and its major and minor numbers are used by the kernel to identify it.
+
+The ls -l command can be used to list the devices in the /dev directory along with their associated major and minor numbers.
+
+
+        /* register device number*/
+        //  The device number to be search at proc/devices will be the name choosen
+        //  The name in this case call: my_dev_number
+        //  after load, you can check type: cat /proc/devices | grep my_dev_numer
+
+cmd
+
+sudo insmod <fileName.ko>
+cat /proc/devices | grep <device named in the code>
+
+
+sudo knode /dev/mydevice c 90 0
+
+
+The syntax for mknod is:
+
+bash
+
+sudo mknod /dev/mydevice c major_number minor_number
+
+Here:
+
+    /dev/mydevice is the path and name of the device node you want to create.
+    c specifies that you're creating a character device. For block devices, you'd use b.
+    major_number and minor_number are the major and minor numbers associated with the device, respectively.
+
+So, your command should look something like:
+
+bash
+
+The syntax for mknod is:
+
+sudo mknod /dev/mydevice c major_number minor_number
+sudo mknod /dev/mydevice c 90 0
+
+This command will create a character device node named /dev/mydevice with major number 90 and minor number 0. 
+Make sure to replace 90 and 0 with the appropriate major and minor numbers for your device.
+
+
+ls /dev/mydevice -la
+crw-r--r-- 1 root root 90, 0 Feb 23 17:54 /dev/mydevice

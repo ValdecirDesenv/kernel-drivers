@@ -1,0 +1,74 @@
+/**
+*	This code will allow  us to read and write into  device drivers 
+*
+*/
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/fs.h>
+
+/* Meta Information */
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Valdecir A. A. de Olivera");
+MODULE_DESCRIPTION("Second level dev Linux, reg device number and implement callback function");
+/*
+The /proc/devices file in Linux provides a list of character and block devices 
+currently configured in the running kernel. 
+It displays the major and minor numbers associated with each device type.
+*/
+#define MYMAJOR 90
+
+/**
+* @brief  This function  is called, when the device file is open
+*/
+static int driver_open(struct inode *device_file, struct file *instance){
+	printk("device number - open was called! \n");
+	return 0;
+}
+/**
+* @brief  This function  is called, when the device file is close
+*/
+static int driver_close(struct inode *device_file, struct file *instance){ 
+        printk("device number - close was called! \n");
+        return 0;
+}
+
+static struct file_operations fops = {
+	.owner = THIS_MODULE,
+	.open  = driver_open,
+	.release = driver_close
+};
+
+
+/**
+* @brief  This function  is called, when the module is loaded  into the kernel
+*/
+static int __init ModuleInit(void){
+	int ret_val;
+	printk("Hi Level 02, kernel !\n");
+	/* register device number*/
+	//  The device number to be search at proc/devices will be the name choosen
+	//  The name in this case call: my_dev_number
+	//  after load, you can check type: cat /proc/devices | grep my_dev_numer
+	ret_val = register_chrdev(MYMAJOR, "my_dev_number",&fops);
+	if ( ret_val == 0){
+		printk("device number - registered Device number Major: %d, Minor: %d\n",MYMAJOR, 0);
+	}else if (ret_val > 0) {
+		printk("device number - registered Device number Major: %d, Minor: %d\n",MYMAJOR>>20, ret_val&0xffffff);
+	}else {
+		printk("Could not register device number");
+		return -1;
+	}
+	
+	return 0;
+}
+
+/**
+* @brief This function is called, when the module is removed from the kernel
+*/
+static void __exit ModuleExit(void){
+	unregister_chrdev(MYMAJOR, "my_dev_number");
+	printk("See you next Level, Kernel \n");
+}
+
+module_init(ModuleInit);
+module_exit(ModuleExit);

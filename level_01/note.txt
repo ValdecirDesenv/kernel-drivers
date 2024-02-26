@@ -1,7 +1,9 @@
-"Compiler:
-* Keep in mind:
-	- The compiler requires the Makefile.
-	- The compiler requires GCC.
+Compiler:
+	* remenber, 
+		It will need the Makefile
+		It will need GCC
+	* Type: make
+		It will compile the current code, acordandly with the Makefile project path, and lib
 * Command: make
 	- Executes the compilation process for the current code, adhering to the specified project path and libraries defined in the Makefile."
 
